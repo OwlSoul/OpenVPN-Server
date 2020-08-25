@@ -1,6 +1,6 @@
-# OpenVPN server used for FLUICS maintenance and firmware updates (instead of SSH tunnels)
+# OpenVPN server packed inside docker container
 
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ARG HOMEDIR="/home/openvpn"
 
@@ -8,7 +8,9 @@ ARG HOMEDIR="/home/openvpn"
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install OpenVPN server
-RUN apt-get update && apt-get install -y openvpn && apt-get clean
+RUN apt-get update && apt-get install -y openvpn \
+                                         iputils-ping \
+    && apt-get clean
 
 # Create a user for OpenVPN to run
 RUN mkdir -p "$HOMEDIR" && \ 
